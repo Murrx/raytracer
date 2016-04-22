@@ -43,7 +43,7 @@ public class Tracer extends Frame {
 		lights = new ArrayList();
 		try {
 			
-			Parser p = new Parser( "scene.txt" );
+			Parser p = new Parser("scenes/scene.txt");
 
 			while( !p.endOfFile() ) {
 				if( p.tryKeyword( "width" ) ) {
