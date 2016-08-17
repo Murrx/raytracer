@@ -3,7 +3,7 @@ package tracer;
 import java.io.IOException;
 
 /**
- * 3D flat, onbounded, traceable thingy, represented by normal vector and distance from the origin
+ * 3D flat, unbounded, traceable thingy, represented by normal vector and distance from the origin
  */
 public class Plane extends Traceable {
 
@@ -40,14 +40,15 @@ public class Plane extends Traceable {
 	}
 	
 	public IntersectionInfo intersect( Ray r ) {
-		// replace this by meaningfull code
-		return new IntersectionInfo(false);
+        if(hit(r)){
+            return new IntersectionInfo(new Vec3(), new Vec3(), 0, this);
+        } else {
+            return new IntersectionInfo(false);
+        }
 	}
 	
 	public boolean hit( Ray r ) {
-		// replace this by meaningfull code.
-		return false;
-		
+	    return -(this.offset - this.normal.dot(r.origin)) / (this.normal.dot(r.direction)) > 0;
 	}
 	
 }

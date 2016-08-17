@@ -18,7 +18,8 @@ plane {
 	offset 20
 
 	material {
-		color < 0.4, 0.4, 0.5 >
+	    //red
+		color < 1.0, 0.0, 0.0 >
 		reflectance 0.1
 	}
 
@@ -29,7 +30,8 @@ plane {
 	offset 25
 
 	material {
-		color < 0.2, 0.8, 0.2 >
+	    //green
+		color < 0.0, 1.0, 0.0 >
 		diffuse 0.5
 	}
 
@@ -40,7 +42,7 @@ plane {
 	offset 120
 
 	material {
-		COLOR < 0.2, 0.2, 0.8 >
+		COLOR < 0.0, 0.0, 1.0 >
 	}
 
 }

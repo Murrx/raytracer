@@ -55,14 +55,14 @@ public class Ray {
 				IntersectionInfo info = t.intersect( this );
 				if(  info.hit  &&  (nearestHit==null || info.distance<nearestHit.distance)  ) {
 					nearestHit = info;
-				}
+                }
 			}
 			
 		}
 		if( nearestHit != null ) {
 			// actually hit something
 			Material material = nearestHit.object.material;
-			Vec3 color = material.color.times( material.ambient ); // ambient
+			Vec3 color = material.color;//.times( material.ambient ); // ambient
 			
 			// local contribution of light
 			Iterator lightIter = Tracer.lights.iterator();

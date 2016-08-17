@@ -47,8 +47,11 @@ public class Vec3 {
 	 * Vector addition. Returns a new Vec3 equal to this + that.
 	 */
 	public Vec3 add( Vec3 that ) {
-		// replace the line below by meaningful code
-		return new Vec3();	
+	    return new Vec3(
+	            this.x + that.x,
+                this.y + that.y,
+                this.z + that.z
+        );
 	}
 	/**
 	 * Multiplication by a scalar. Returns a new Vec3 equals to f * this.
@@ -86,22 +89,23 @@ public class Vec3 {
 	 **/
 	public float lengthSquared() {
 		// replace the line below by meaningful code
-		return 0;
+		//return 0;
+        throw new UnsupportedOperationException("not implemented");
 	}
 	
 	/**
 	 * Vector dot-product. Returns a new Vec3 equal to this dot that.
 	 */
 	public float dot( Vec3 that ) {
-		// replace the line below by meaningful code
-		return 0;
+	    return (this.x * that.x) + (this.y * that.y) + (this.z * that.z);
 	}
 	/**
 	 * Vector cross-product. Returns a new Vec3 equal to this cross that.
 	 */
 	public Vec3 cross( Vec3 b ) {
 		// replace the line below by meaningful code
-		return new Vec3();	
+        throw new UnsupportedOperationException("not implemented");
+		//return new Vec3();
 	}
 	
 	/**

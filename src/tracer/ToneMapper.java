@@ -29,7 +29,6 @@ public class ToneMapper {
 		
 		// pack the colours into an int
 		return (intA<<24) | (intR<<16) | (intG<<8) | intB;
-
-	}	
+	}
 	
 }

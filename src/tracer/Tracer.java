@@ -42,9 +42,11 @@ public class Tracer extends Frame {
 		scene = new ArrayList();
 		lights = new ArrayList();
 		try {
-			
-			Parser p = new Parser("scenes/scene.txt");
+			String sceneName = "scenes/scene2.txt";
+            System.out.println("Loading scene: " + sceneName);
+            Parser p = new Parser(sceneName);
 
+            System.out.println( "Parsing scene description." );
 			while( !p.endOfFile() ) {
 				if( p.tryKeyword( "width" ) ) {
 					width = (int)p.parseFloat();
@@ -72,10 +74,10 @@ public class Tracer extends Frame {
 					System.out.println( p.tokenWasUnexpected() );		
 				}
 			}			
-			
-			
-		} catch( IOException e ) {}
-	}
+		} catch( IOException e ) {
+            System.out.println(e);
+        }
+    }
 	
 	/**
 	 * Redraws the offscreenImage onto the screen.
@@ -104,22 +106,33 @@ public class Tracer extends Frame {
 		
 		ToneMapper toneMapper = new ToneMapper( gamma );
 		
-		System.out.println( "Starting raytracing." );
-		
-		for( int y=0; y<height; ++y ) {
-			for( int x=0; x<width; ++x ) {
-		
-				int index = (height-y-1)*width + x;
-				Vec3 color = tracePixel( x, y );
-				pixelBuffer[ index ] = toneMapper.map( color.x, color.y, color.z );
-				
-				
+		System.out.println( "Started rendering." );
+		boolean render_all = true;
+
+		if (render_all) {
+			for (int y = 0; y < height; ++y) {
+				for (int x = 0; x < width; ++x) {
+
+					int index = (height - y - 1) * width + x;
+					Vec3 color = tracePixel(x, y);
+					pixelBuffer[index] = toneMapper.map(color.x, color.y, color.z);
+				}
+				if ((y & 7) == 0) {
+					paint(getGraphics());
+				}
 			}
-			if( (y&7) == 0 ) paint( getGraphics() );
+		} else {
+            int x = 200;
+            int y = 200;
+
+    		int index = (height-y-1)*width + x;
+    		Vec3 color = tracePixel( x, y );
+    		pixelBuffer[ index ] = toneMapper.map( color.x, color.y, color.z );
+            paint ( getGraphics());
 		}
-		
-		System.out.println( "Finished raytracing." );
-		
+
+
+        System.out.println( "Finished rendering." );
 	}
 	
 	/**
@@ -128,10 +141,26 @@ public class Tracer extends Frame {
 	 * color for the pixel).
 	 */
 	public Vec3 tracePixel( int x, int y ) {
-		
-		// compute a ray from the origin of the camera through the center of pixel (x,y)
+        // compute a ray from the origin of the camera through the center of pixel (x,y)
 		// replace the line below by meaningful code
-		Vec3 direction = new Vec3();
+        Vec3 p0 = camera.origin;
+
+        //compute viewing window (vw) width and height
+        float vw_with = camera.right - camera.left;
+        float vw_height = camera.top - camera.bottom;
+
+        //compute ratio between vw and screen coordinates
+        float x_ratio = (vw_with / Tracer.width);
+        float y_ratio = (vw_height / Tracer.height);
+
+        //set negative dimension for x, y coordinate
+        x -= (Tracer.width / 2);
+        y -= (Tracer.height / 2);
+
+        Vec3 p1 = new Vec3(x * x_ratio, y * y_ratio, camera.near);
+
+		Vec3 direction = p1.minus(p0);
+
 		Ray r = new Ray( camera.origin, direction );
 		return r.trace( null, maxReflectionDepth );
 		
@@ -141,11 +170,9 @@ public class Tracer extends Frame {
 		Tracer mainFrame = new Tracer();
 		mainFrame.setTitle("Tracer");
 		
-		System.out.println( "Parsing scene description." );
 		mainFrame.loadScene();
 		mainFrame.setSize(Tracer.width+10, Tracer.height+50);
 		mainFrame.setVisible(true);
 		mainFrame.render();
-		
 	}
 }
